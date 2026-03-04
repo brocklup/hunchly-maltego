@@ -10,40 +10,57 @@ Before you start, make sure you have:
 
 - **Hunchly 2** installed and running
 - **Maltego** installed (any edition — CE, Classic, or XL)
-- **Python 3.10 or newer** — [download here](https://www.python.org/downloads/) if you don't have it
-
-> **Windows users:** When installing Python, make sure to check **"Add Python to PATH"** on the first screen of the installer. This is easy to miss and things won't work without it.
 
 ## Installation
 
-### macOS / Linux
+### Option A: Standalone Binary (Recommended)
 
-Open Terminal, navigate to where you extracted this folder, and run:
+No Python required. Download the binary for your platform from the [Releases page](https://github.com/brocklup/hunchly-maltego/releases):
+
+| Platform | Download |
+|----------|----------|
+| macOS | `hunchly-maltego-macos.zip` |
+| Windows | `hunchly-maltego-windows.zip` |
+| Linux | `hunchly-maltego-linux.tar.gz` |
+
+**macOS / Linux:**
+
+```
+unzip hunchly-maltego-macos.zip
+chmod +x hunchly-maltego
+./hunchly-maltego configure
+```
+
+**Windows:**
+
+1. Extract `hunchly-maltego-windows.zip`
+2. Open Command Prompt in that folder
+3. Run: `hunchly-maltego.exe configure`
+
+This generates a `hunchly-local.mtz` file. Import it into Maltego (see below).
+
+> **macOS users:** If macOS blocks the binary with "unidentified developer", right-click → Open, or go to System Settings → Privacy & Security and click "Allow Anyway".
+
+### Option B: Install from Source
+
+Requires **Python 3.10+** — [download here](https://www.python.org/downloads/) if you don't have it.
+
+> **Windows users:** When installing Python, make sure to check **"Add Python to PATH"** on the first screen of the installer.
+
+**macOS / Linux:**
 
 ```
 chmod +x setup.sh
 ./setup.sh
 ```
 
-### Windows
+**Windows:**
 
-Double-click **`setup.bat`**, or open Command Prompt in this folder and run:
-
-```
-setup.bat
-```
-
-### What the installer does
-
-1. Verifies you have Python 3.10+
-2. Creates an isolated Python environment (won't affect anything else on your system)
-3. Installs the Hunchly transforms
-4. Checks that it can find your Hunchly application
-5. Generates a **`hunchly-local.mtz`** configuration file
+Double-click **`setup.bat`**, or run it from Command Prompt.
 
 ### Import into Maltego
 
-After the installer finishes, it will have created a file called `hunchly-local.mtz`. Import it:
+After either option, you'll have a `hunchly-local.mtz` file. Import it:
 
 1. Open **Maltego**
 2. Go to **Import → Configuration**

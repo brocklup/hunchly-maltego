@@ -1,0 +1,105 @@
+name: Build Standalone Binaries
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            artifact: hunchly-maltego-macos
+            binary: dist/hunchly-maltego
+          - os: windows-latest
+            artifact: hunchly-maltego-windows
+            binary: dist/hunchly-maltego.exe
+          - os: ubuntu-latest
+            artifact: hunchly-maltego-linux
+            binary: dist/hunchly-maltego
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install -e .
+
+      - name: Build binary
+        run: pyinstaller hunchly-maltego.spec --clean --noconfirm
+
+      - name: Verify binary (unix)
+        if: runner.os != 'Windows'
+        run: |
+          chmod +x ${{ matrix.binary }}
+          ${{ matrix.binary }} --help || true
+
+      - name: Verify binary (windows)
+        if: runner.os == 'Windows'
+        run: |
+          & "${{ matrix.binary }}" --help
+        shell: pwsh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.binary }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Package release archives
+        run: |
+          mkdir -p release
+
+          # macOS
+          cp artifacts/hunchly-maltego-macos/hunchly-maltego release/hunchly-maltego
+          cp README.md release/
+          chmod +x release/hunchly-maltego
+          cd release && zip ../release/hunchly-maltego-macos.zip hunchly-maltego README.md && cd ..
+          rm release/hunchly-maltego
+
+          # Linux
+          cp artifacts/hunchly-maltego-linux/hunchly-maltego release/hunchly-maltego
+          cp README.md release/
+          chmod +x release/hunchly-maltego
+          cd release && tar czf ../release/hunchly-maltego-linux.tar.gz hunchly-maltego README.md && cd ..
+          rm release/hunchly-maltego
+
+          # Windows
+          cp artifacts/hunchly-maltego-windows/hunchly-maltego.exe release/hunchly-maltego.exe
+          cp README.md release/
+          cd release && zip ../release/hunchly-maltego-windows.zip hunchly-maltego.exe README.md && cd ..
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/hunchly-maltego-macos.zip
+            release/hunchly-maltego-linux.tar.gz
+            release/hunchly-maltego-windows.zip
+          generate_release_notes: true

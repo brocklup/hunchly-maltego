@@ -17,6 +17,9 @@ from pathlib import Path
 
 def _get_resources_dir() -> Path:
     """Return the path to the bundled resources directory."""
+    if getattr(sys, 'frozen', False):
+        # PyInstaller frozen binary: resources are in the temp extraction dir
+        return Path(sys._MEIPASS) / "hunchly_maltego" / "resources"
     return Path(__file__).resolve().parent / "resources"
 
 
@@ -70,14 +73,31 @@ def cmd_configure(args: argparse.Namespace) -> None:
     print("─── Generating .mtz ───")
 
     try:
-        project_dir = str(Path(__file__).resolve().parent)
-        command = sys.executable  # Use the current venv Python
+        # Detect if running as a PyInstaller frozen binary
+        is_frozen = getattr(sys, 'frozen', False)
+
+        if is_frozen:
+            # Frozen binary: Maltego calls the binary directly
+            #   command = /path/to/hunchly-maltego
+            #   params  = ""  (maltego-trx appends "local <transform>")
+            command = sys.executable
+            params = ""
+            working_dir = str(Path(sys.executable).resolve().parent)
+            print(f"  Frozen binary detected: {command}")
+        else:
+            # Development / pip install: Maltego calls python + project.py
+            #   command = /path/to/.venv/bin/python3
+            #   params  = "project.py"
+            project_dir = str(Path(__file__).resolve().parent)
+            command = sys.executable
+            params = "project.py"
+            working_dir = project_dir
 
         registry.write_local_mtz(
             mtz_path=str(out_path),
-            working_dir=project_dir,
+            working_dir=working_dir,
             command=command,
-            params="project.py",
+            params=params,
             debug=True,
         )
         print(f"  ✓ Generated transform configs: {out_path}")
@@ -150,6 +170,19 @@ def cmd_check(args: argparse.Namespace) -> None:
         print(f"⚠ Could not execute HunchlyAPI: {exc}")
 
 
+def cmd_local(args: argparse.Namespace) -> None:
+    """Run a transform locally (called by Maltego)."""
+    # This is the entry point Maltego invokes:
+    #   hunchly-maltego local getpages "CaseName" "properties.hunchlycase=CaseName"
+    from hunchly_maltego.project import app
+    from maltego_trx.handler import handle_run
+
+    # Reconstruct argv the way handle_run expects:
+    #   ["__main__", "local", "<transform>", "<value>", "<props>"]
+    fake_argv = ["__main__", "local", args.transform_name] + args.transform_args
+    handle_run("__main__", fake_argv, app, port=8080)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="hunchly-maltego",
@@ -176,6 +209,12 @@ def main() -> None:
     # check
     p_check = sub.add_parser("check", help="Verify HunchlyAPI is reachable")
     p_check.set_defaults(func=cmd_check)
+
+    # local (called by Maltego — hidden from help)
+    p_local = sub.add_parser("local", help=argparse.SUPPRESS)
+    p_local.add_argument("transform_name", help="Transform name (e.g. getpages)")
+    p_local.add_argument("transform_args", nargs="*", help="Entity value and properties")
+    p_local.set_defaults(func=cmd_local)
 
     args = parser.parse_args()
     args.func(args)
