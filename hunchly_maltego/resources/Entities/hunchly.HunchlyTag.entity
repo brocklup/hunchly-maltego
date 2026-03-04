@@ -1,0 +1,10 @@
+<MaltegoEntity id="hunchly.HunchlyTag" displayName="Hunchly Tag" displayNamePlural="Hunchly Tags" description="A tag from a Hunchly case." category="Hunchly" smallIconResource="hunchly_tag" largeIconResource="hunchly_tag" allowedRoot="true" conversionOrder="2147483647" visible="true">
+   <Properties value="properties.hunchlytag" displayValue="properties.hunchlytag">
+      <Fields>
+         <Field name="properties.hunchlytag" type="string" nullable="true" hidden="false" readonly="false" description="The tag name for a Hunchly tag." displayName="Hunchly Tag">
+            <DefaultValue> </DefaultValue>
+            <SampleValue>-</SampleValue>
+         </Field>
+      </Fields>
+   </Properties>
+</MaltegoEntity>

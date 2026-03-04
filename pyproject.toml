@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hunchly-maltego"
+version = "2.0.0"
+description = "Maltego transforms for Hunchly — local and remote"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Hunchly", email = "support@hunch.ly" },
+]
+keywords = ["maltego", "hunchly", "osint", "transforms"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+dependencies = [
+    "maltego-trx>=1.6.0",
+]
+
+[project.optional-dependencies]
+remote = ["gunicorn>=21.2.0"]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+hunchly-maltego = "hunchly_maltego.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/hunchly/hunchly-maltego"
+Issues = "https://github.com/hunchly/hunchly-maltego/issues"
+Documentation = "https://support.hunch.ly"
+
+[tool.setuptools.packages.find]
+include = ["hunchly_maltego*"]
+
+[tool.setuptools.package-data]
+hunchly_maltego = ["resources/**/*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120

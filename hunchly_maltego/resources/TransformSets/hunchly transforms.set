@@ -1,0 +1,10 @@
+<TransformSet name="Hunchly Transforms" description="Transforms to integrate Hunchly with Maltego.">
+   <Transforms>
+      <Transform name="getpages"/>
+      <Transform name="getdata"/>
+      <Transform name="getselectors"/>
+      <Transform name="getphotos"/>
+      <Transform name="getphotoexif"/>
+      <Transform name="keywordsearch"/>
+   </Transforms>
+</TransformSet>

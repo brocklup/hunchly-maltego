@@ -1,0 +1,14 @@
+<MaltegoEntity id="hunchly.HunchlyCase" displayName="Hunchly Case" displayNamePlural="Hunchly Cases" description="A Hunchly Case." category="Hunchly" smallIconResource="hunchly_case" largeIconResource="hunchly_case" allowedRoot="true" conversionOrder="2147483647" visible="true">
+   <Properties value="properties.hunchlycase" displayValue="properties.hunchlycase">
+      <Groups/>
+      <Fields>
+         <Field name="properties.hunchlycase" type="string" nullable="true" hidden="false" readonly="false" description="The is the name of a Hunchly Case" displayName="Hunchly Case">
+            <DefaultValue> </DefaultValue>
+            <SampleValue>-</SampleValue>
+         </Field>
+         <Field name="case_id" type="int" nullable="true" hidden="false" readonly="false" description="" displayName="Case ID">
+            <SampleValue>0</SampleValue>
+         </Field>
+      </Fields>
+   </Properties>
+</MaltegoEntity>

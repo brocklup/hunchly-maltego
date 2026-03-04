@@ -1,0 +1,23 @@
+<MaltegoEntity id="hunchly.HunchlyPage" displayName="Hunchly Page" displayNamePlural="Hunchly Pages" description="A page retrieved in Hunchly." category="Hunchly" smallIconResource="Hunchly/hunchly_page" largeIconResource="Hunchly/hunchly_page" allowedRoot="true" conversionOrder="2147483647" visible="true">
+   <Properties value="properties.hunchlypage" displayValue="properties.hunchlypage">
+      <Groups/>
+      <Fields>
+         <Field name="properties.hunchlypage" type="string" nullable="true" hidden="false" readonly="false" description="A page captured with Hunchly." displayName="Hunchly Page">
+            <DefaultValue> </DefaultValue>
+            <SampleValue>-</SampleValue>
+         </Field>
+         <Field name="page_id" type="int" nullable="true" hidden="false" readonly="false" description="" displayName="Page ID">
+            <SampleValue>0</SampleValue>
+         </Field>
+         <Field name="page_url" type="string" nullable="true" hidden="false" readonly="false" description="" displayName="Page URL">
+            <SampleValue></SampleValue>
+         </Field>
+         <Field name="page_title" type="string" nullable="true" hidden="false" readonly="false" description="" displayName="Page Title">
+            <SampleValue></SampleValue>
+         </Field>
+      </Fields>
+   </Properties>
+   <Overlays>
+      <Overlay propertyName="green" position="N" type="colour"/>
+   </Overlays>
+</MaltegoEntity>

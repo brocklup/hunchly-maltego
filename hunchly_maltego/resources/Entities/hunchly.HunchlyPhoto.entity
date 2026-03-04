@@ -1,0 +1,26 @@
+<MaltegoEntity id="hunchly.HunchlyPhoto" displayName="Hunchly Photo" displayNamePlural="Hunchly Photos" description="A photo captured in Hunchly." category="Hunchly" smallIconResource="Hunchly/hunchly_image" largeIconResource="Hunchly/hunchly_image" allowedRoot="true" conversionOrder="2147483647" visible="true">
+   <BaseEntities>
+      <BaseEntity>maltego.Image</BaseEntity>
+   </BaseEntities>
+   <Properties image="local_file" value="properties.hunchlyphoto" displayValue="properties.hunchlyphoto">
+      <Groups/>
+      <Fields>
+         <Field name="properties.hunchlyphoto" type="string" nullable="true" hidden="false" readonly="false" description="A photo extracted in Hunchly." displayName="Hunchly Photo">
+            <DefaultValue> </DefaultValue>
+            <SampleValue>-</SampleValue>
+         </Field>
+         <Field name="url" type="string" nullable="true" hidden="false" readonly="false" description="" displayName="URL">
+            <SampleValue></SampleValue>
+         </Field>
+         <Field name="hash" type="string" nullable="true" hidden="false" readonly="false" description="" displayName="SHA-256 Hash">
+            <SampleValue></SampleValue>
+         </Field>
+         <Field name="local_file" type="string" nullable="true" hidden="false" readonly="false" description="" displayName="Local File">
+            <SampleValue></SampleValue>
+         </Field>
+      </Fields>
+   </Properties>
+   <Overlays>
+      <Overlay propertyName="blue" position="N" type="colour"/>
+   </Overlays>
+</MaltegoEntity>
