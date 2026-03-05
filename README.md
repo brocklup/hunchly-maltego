@@ -2,7 +2,7 @@
 
 Pull your Hunchly case data — pages, selectors, photos, EXIF metadata — directly into Maltego graphs.
 
-![Maltego + Hunchly](https://hunch.ly/assets/images/logo.svg)
+![Maltego + Hunchly]
 
 ## What You Need
 
