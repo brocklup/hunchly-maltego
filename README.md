@@ -7,7 +7,7 @@ Pull your Hunchly case data — pages, selectors, photos, EXIF metadata — dire
 Before you start, make sure you have:
 
 - **Hunchly 2** installed and running
-- **Maltego** installed (any edition — CE, Classic, or XL)
+- **Maltego** Graph Desktop installed 
 
 ## Installation
 
